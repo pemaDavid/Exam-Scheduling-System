@@ -1,0 +1,209 @@
+{% extends 'dashboardMaster.html'%}
+
+{% block dashboard %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Programme Entry Form</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		.form-container {
+			margin: auto;
+            margin-top: 0px;
+			max-width: 500px;
+			padding: 20px;
+			box-shadow: 0 0 4px rgba(0, 0, 0, 0.183);
+			border-radius: 5px;
+			background-color: #fff;
+		}
+		.form-group label {
+			font-weight: normal;
+		}
+		.glow {
+			animation: glow 1s ease-in-out infinite alternate;
+		}
+		@keyframes glow {
+			from {
+				box-shadow: 0 0 10px #0D76D7;
+			}
+			to {
+				box-shadow: 0 0 20px #0D76D7;
+			}
+		}
+	</style>
+</head>
+<body>
+	<!-- Topbar Search -->
+    <br><br>	
+	
+	<div class="row">
+
+		<!-- Earnings (Monthly) Card Example -->
+		<div class="col-xl-6 col-md-6 mb-6">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<a class="col mr-2" href="generate" style="text-decoration: none;">
+							<div class="text-xs font-weight-bold text-primary  mb-1" href="generate.html">
+								Number of <br> Programmes: {{ programcount }}</div>
+							</a>
+						<div class="col-auto">
+							<i class="fa fa-home fa-2x text-gray-300" aria-hidden="true" ></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Earnings (Monthly) Card Example -->
+		<div class="col-xl-6 col-md-6 mb-6">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<a class="col mr-2" href="#" style="text-decoration: none;">
+							<div class="text-xs font-weight-bold text-info mb-1" onclick="openForm()">
+								Add <br> Programme</div>
+								<button class="btn btn-info" onclick="openForm()">+add</button>
+
+							</a>
+						<div class="col-auto">
+							<i class="fa fa-plus-square fa-2x text-gray-300" aria-hidden="true"></i>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><br>
+
+	<hr class="sidebar-divider">
+
+	<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-4 my-3 my-md-0 mw-150 navbar-search">
+        <div class="input-group">
+            <input type="text" style="margin-left: 350px;" class="form-control border-dark small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+                <i class="fas fa-search fa-sm"></i>
+	        </button>
+        </div>
+    </div>
+    </form>	
+
+	<hr class="sidebar-divider">
+
+
+	<style>
+		.form-popup {
+		  display: none;
+		  position: fixed;
+		  bottom: 0;
+		  right: 15px;
+		  border: 3px solid #f1f1f1;
+		  z-index: 9;
+		}
+	
+		.form-container {
+		  max-width: 460px;
+		  padding: 20px;
+		  background-color: white;
+		}
+	
+		/* Add styles to the submit button */
+		.glow {
+		  transition-duration: 0.4s;
+		  transition-property: color, background-color, box-shadow;
+		  box-shadow: 0 0 20px #eee;
+		  border-radius: 30px;
+		  font-weight: bold;
+		  background-color:#0D76D7;
+		  color: white;
+		}
+	
+		.glow:hover {
+		  background-color:#469ef1;
+		  color: white;
+		  box-shadow: 0 0 20px #ccc;
+		}
+		tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}
+		table
+		{
+		    counter-reset: Serial;          
+		}
+		
+		</style>
+	</head>
+	<body>
+
+			<div class="container mt-5"data-aos="fade-up">
+
+                        <div class="col-div-12">
+                    <div class="box-8">
+                
+                    <table class="table table-bordered shadow" >
+                        <thead class="table-header" style="background-color: #0D76D7; color: #fff; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);">
+                        <tr>
+
+							<th class="text-center">Sl.no</th>
+                            <th class="text-center">Programme</th>
+                            <th class="text-center">Department</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in data %}
+                        <tr>
+							<td></td>
+                            <td>{{ item.program_name}}</td>
+                            <td>{{ item.department.department_name }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+
+                        
+                        </tbody>
+                    </table>
+            </div>
+	
+	<div class="form-popup" id="myForm">
+	
+		<div class="form-container">
+			<h2 class="text-center mb-4">Programme Entry Form</h2>
+			<form method="post" id="myForm">
+				 			{% csrf_token %}
+							{{ form.as_p }}
+				
+				<button type="submit" class="btn btn-primary glow" style="width: 100%;">Add</button>
+                <h3 class="text-center mb-2">Upload Excel File</h3>
+                <input type="file" name="programlist" class="form-control">
+                <button type="submit" class="btn btn-success" >Upload data </button> 
+				<button type="button" class="btn btn-danger" onclick="closeForm()" style="width: 100%; margin-top: 10px; border-radius: 30px;">Close</button>
+			</form>
+		</div>
+	</div>
+	
+	
+	<script>
+		function openForm() {
+			  document.getElementById("myForm").style.display = "block";
+		}
+	
+		function closeForm() {
+			document.getElementById("myForm").style.display = "none";
+		}
+	</script>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	</body>
+	</html>
+{% endblock %}
+
+
+
+
+ 

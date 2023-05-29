@@ -1,0 +1,66 @@
+{% extends 'dashboardMaster.html'%}
+
+{% block dashboard %}
+
+
+<style>
+tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}
+		table
+		{
+		    counter-reset: Serial;          
+		}
+
+
+
+
+</style>
+    <h2 class="text-center" >{{ sem }} Semester</h2>
+    <h2 class="text-center">Year: {{ y }} </h2>
+    <h2 class="text-center">{{ type }} </h2>
+
+
+<div class="container mt-5">
+
+<form method="post">
+
+        {% csrf_token %}
+
+        {% for examtable in examtable_list %}
+        <h3><b>{{ examtable.program_name }}</b></h3> <h3><b>Year: {{ examtable.program_year }}</b></h3>
+        <table class="table table-bordered shadow" >
+            <thead class="table-header" style="background-color: #0D76D7; color: #fff; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);">
+            <tr>
+                <th class="text-center">Sl.no</th>
+                <th class="text-center">Day</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Time</th>
+                <th class="text-center">Module Code</th>
+                <th class="text-center">Module Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for module in examtable.it_modules %}
+            <tr style="background-color: #8ac0f2ae;">
+                <td></td>
+                <td><input type="text" name="day{{ module.id }}" value="{{ module.day}}"></td>
+                <td><input type="text" name="date{{ module.id }}" value="{{ module.date }}"></td>
+                <td><input type="text" name="time{{ module.id }}" value="{{ module.time }}"></td>
+                <td><input type="text" name="module_code{{ module.id }}" value="{{ module.module_code }}"></td>
+                <td><input type="text" name="module_name{{ module.id }}" value="{{ module.module_name }}"></td>
+            </tr>
+            {% endfor %}
+
+            
+            </tbody>
+        </table>
+        {% endfor %}
+</div>
+    <button type="submit">Save Changes</button>
+</form>
+
+
+{% endblock %}

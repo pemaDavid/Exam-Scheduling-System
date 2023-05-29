@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .form-popup {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" data-aos="fade-up">
+        <div class="col-div-12">
+            <div class="box-8">
+                <table class="table table-bordered shadow">
+                    <thead class="table-header" style="background-color: #0D76D7; color: #fff; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);">
+                        <tr>
+                            <th class="text-center">Sl.No</th>
+                            <th class="text-center">Student ID</th>
+                            <th class="text-center">Student Name</th>
+                            <th class="text-center">Program</th>
+                            <th class="text-center">Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                        <tr>
+                            <td></td>
+                            <td>{{ item.student_id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.program.program_name }}</td>
+                            <td>{{ item.year.year_id }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-popup" id="myForm">
+            <div class="form-container">
+                <h2 class="text-center mb-4">Student Entry Form</h2>
+                <form method="post" id="myForm">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-primary glow" style="width: 100%;">Add</button>
+                    <h3 class="text-center mb-2">Upload Excel File</h3>
+                    <input type="file" name="studentlist" class="form-control">
+                    <button type="submit" class="btn btn-success">Upload data</button>
+                    <button type="button" class="btn btn-danger" onclick="closeForm()" style="width: 100%; margin-top: 10px; border-radius: 30px;">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+</body>
+</html>
